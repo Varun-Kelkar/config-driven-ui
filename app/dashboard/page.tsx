@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getLayoutConfig } from '@/lib/configActions';
 import { getPanelComponent } from '@/lib/panelRegistry';
+import DashboardSkeleton from '@/components/DashboardSkeleton';
 import type { LayoutConfig } from '@/lib/types';
 
 export default function DashboardPage() {
@@ -13,34 +14,34 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const savedConfig = getLayoutConfig();
-      
-      // If no config saved, redirect to builder
-      if (!savedConfig) {
+    const loadConfig = async () => {
+      try {
+        // Simulate API call with 4 second delay
+        await new Promise(resolve => setTimeout(resolve, 4000));
+        
+        const savedConfig = getLayoutConfig();
+        
+        // If no config saved, redirect to builder
+        if (!savedConfig) {
+          router.push('/builder');
+          return;
+        }
+        
+        setConfig(savedConfig);
+      } catch (error) {
+        console.error('Failed to load config:', error);
         router.push('/builder');
-        return;
+      } finally {
+        setIsLoading(false);
       }
-      
-      setConfig(savedConfig);
-    } catch (error) {
-      console.error('Failed to load config:', error);
-      router.push('/builder');
-    } finally {
-      setIsLoading(false);
-    }
+    };
+    
+    loadConfig();
   }, [router]);
 
-  // Show loading state
+  // Show shimmer loading state
   if (isLoading || !config) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
-          <p className="text-gray-600 font-medium">Loading dashboard...</p>
-        </div>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   const visiblePanels = config.panels

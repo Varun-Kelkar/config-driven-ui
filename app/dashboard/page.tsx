@@ -1,15 +1,46 @@
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { getLayoutConfig } from "@/lib/configActions";
-import { getPanelComponent } from "@/lib/panelRegistry";
+'use client';
 
-export default async function DashboardPage() {
-  // Fetch saved config from server
-  const config = await getLayoutConfig();
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { getLayoutConfig } from '@/lib/configActions';
+import { getPanelComponent } from '@/lib/panelRegistry';
+import type { LayoutConfig } from '@/lib/types';
 
-  // If no config saved, redirect to builder
-  if (!config) {
-    redirect("/builder");
+export default function DashboardPage() {
+  const router = useRouter();
+  const [config, setConfig] = useState<LayoutConfig | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    try {
+      const savedConfig = getLayoutConfig();
+      
+      // If no config saved, redirect to builder
+      if (!savedConfig) {
+        router.push('/builder');
+        return;
+      }
+      
+      setConfig(savedConfig);
+    } catch (error) {
+      console.error('Failed to load config:', error);
+      router.push('/builder');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [router]);
+
+  // Show loading state
+  if (isLoading || !config) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+          <p className="text-gray-600 font-medium">Loading dashboard...</p>
+        </div>
+      </div>
+    );
   }
 
   const visiblePanels = config.panels
@@ -23,15 +54,14 @@ export default async function DashboardPage() {
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className=" mx-auto px-4 md:px-6 py-4">
+        <div className="max-w-[1800px] mx-auto px-4 md:px-6 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
               <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 Dashboard
               </h1>
               <p className="text-sm text-gray-500">
-                {config.mode === "grid" ? "Grid Layout" : "List Layout"} •{" "}
-                {visiblePanels.length} panels
+                {config.mode === 'grid' ? 'Grid Layout' : 'List Layout'} • {visiblePanels.length} panels
               </p>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">

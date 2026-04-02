@@ -127,17 +127,19 @@ config-driven-ui/
 - **Styling**: Tailwind CSS 4
 - **Drag & Drop**: @dnd-kit
 - **State Management**: React Hooks (useState, useEffect)
-- **Data Handling**: Server Actions (in-memory storage)
+- **Data Handling**: localStorage (client-side persistence)
 
 ## 📝 Important Notes
 
-### ⚠️ No Database / No Persistence
+### ⚠️ No Database / Client-Side Storage
 
-- **In-Memory Storage Only** - Configuration is stored in a module-level variable
-- **Data Lost on Restart** - Server restart will clear all saved layouts
+- **localStorage Only** - Configuration is stored in browser's localStorage (5-10MB limit)
+- **Browser-Specific** - Saved layouts are specific to each browser/device
+- **Cleared with Browser Data** - Clearing browser storage will delete saved layouts
+- **Client-Side Only** - No server-side persistence or database
 - **Development Mode** - This is a demonstration/prototype application
 - **No Authentication** - No user accounts or access control
-- **Single Configuration** - Only one layout can be saved at a time
+- **Single Configuration** - Only one layout can be saved per browser
 
 ### 🎭 Dummy Data
 

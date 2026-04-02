@@ -1,16 +1,19 @@
-'use server';
-
 import { LayoutConfig } from './types';
 
-// In-memory storage (will reset on server restart)
-let savedConfig: LayoutConfig | null = null;
+const STORAGE_KEY = 'config-driven-ui-layout';
 
 /**
- * Save layout configuration
+ * Save layout configuration to localStorage
  */
-export async function saveLayoutConfig(config: LayoutConfig): Promise<{ success: boolean; message: string }> {
+export function saveLayoutConfig(config: LayoutConfig): { success: boolean; message: string } {
   try {
-    savedConfig = config;
+    if (typeof window === 'undefined') {
+      return { success: false, message: 'localStorage not available' };
+    }
+    
+    const configString = JSON.stringify(config);
+    localStorage.setItem(STORAGE_KEY, configString);
+    
     return { success: true, message: 'Layout saved successfully!' };
   } catch (error) {
     console.error('Error saving layout:', error);
@@ -19,15 +22,38 @@ export async function saveLayoutConfig(config: LayoutConfig): Promise<{ success:
 }
 
 /**
- * Get saved layout configuration
+ * Get saved layout configuration from localStorage
  */
-export async function getLayoutConfig(): Promise<LayoutConfig | null> {
-  return savedConfig;
+export function getLayoutConfig(): LayoutConfig | null {
+  try {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+    
+    const configString = localStorage.getItem(STORAGE_KEY);
+    
+    if (!configString) {
+      return null;
+    }
+    
+    return JSON.parse(configString) as LayoutConfig;
+  } catch (error) {
+    console.error('Error reading layout:', error);
+    return null;
+  }
 }
 
 /**
  * Check if a saved config exists
  */
-export async function hasSavedConfig(): Promise<boolean> {
-  return savedConfig !== null;
+export function hasSavedConfig(): boolean {
+  try {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+    
+    return localStorage.getItem(STORAGE_KEY) !== null;
+  } catch {
+    return false;
+  }
 }

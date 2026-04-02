@@ -25,25 +25,22 @@ export default function BuilderPage() {
 
   // Load saved config on mount
   useEffect(() => {
-    const loadConfig = async () => {
-      try {
-        const savedConfig = await getLayoutConfig();
-        if (savedConfig) {
-          setConfig(savedConfig);
-        }
-      } catch (error) {
-        console.error('Failed to load saved config:', error);
-      } finally {
-        setIsLoading(false);
+    try {
+      const savedConfig = getLayoutConfig();
+      if (savedConfig) {
+        setConfig(savedConfig);
       }
-    };
-    loadConfig();
+    } catch (error) {
+      console.error('Failed to load saved config:', error);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
-  const handleSave = async () => {
+  const handleSave = () => {
     setIsSaving(true);
     try {
-      const result = await saveLayoutConfig(config);
+      const result = saveLayoutConfig(config);
       if (result.success) {
         // Redirect to dashboard
         router.push('/dashboard');

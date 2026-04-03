@@ -22,35 +22,15 @@ export default function DashboardSkeleton() {
         <div className="max-w-[1800px] mx-auto p-4 md:p-6">
           <div className="space-y-4">
             {/* Large shimmer blocks representing potential panels */}
-            <div className="h-64 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-lg animate-pulse bg-[length:200%_100%]" 
-                 style={{ animation: 'shimmer 2s infinite linear' }}>
-            </div>
+            <div className="h-64 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-lg animate-shimmer"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="h-48 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-lg animate-pulse bg-[length:200%_100%]"
-                   style={{ animation: 'shimmer 2s infinite linear' }}>
-              </div>
-              <div className="h-48 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-lg animate-pulse bg-[length:200%_100%]"
-                   style={{ animation: 'shimmer 2s infinite linear' }}>
-              </div>
+              <div className="h-48 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-lg animate-shimmer"></div>
+              <div className="h-48 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-lg animate-shimmer"></div>
             </div>
-            <div className="h-56 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-lg animate-pulse bg-[length:200%_100%]"
-                 style={{ animation: 'shimmer 2s infinite linear' }}>
-            </div>
+            <div className="h-56 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-lg animate-shimmer"></div>
           </div>
         </div>
       </main>
-
-      {/* Shimmer animation styles */}
-      <style jsx>{`
-        @keyframes shimmer {
-          0% {
-            background-position: -200% 0;
-          }
-          100% {
-            background-position: 200% 0;
-          }
-        }
-      `}</style>
     </div>
   );
 }

@@ -1,4 +1,14 @@
+import type { Metadata } from 'next';
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Home",
+  description: "Build dynamic, responsive layouts with our intuitive drag-and-drop config-driven UI platform. Design once, render anywhere.",
+  openGraph: {
+    title: "Config-Driven UI Platform - Build Dynamic Layouts",
+    description: "Create responsive dashboards with drag-and-drop panel configuration. No coding required.",
+  },
+};
 
 export default async function Home() {
 

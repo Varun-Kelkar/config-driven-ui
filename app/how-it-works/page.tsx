@@ -1,4 +1,14 @@
+import type { Metadata } from 'next';
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "How it Works",
+  description: "Learn how to build dynamic layouts with our config-driven UI platform. Step-by-step guide to creating responsive dashboards.",
+  openGraph: {
+    title: "How it Works - Config-Driven UI Platform",
+    description: "Step-by-step guide to building responsive layouts with drag-and-drop configuration.",
+  },
+};
 
 export default function HowItWorksPage() {
   return (

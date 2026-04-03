@@ -44,29 +44,13 @@ export default function PreviewRenderer({ config }: PreviewRendererProps) {
           </div>
         ) : config.mode === 'grid' ? (
           // Grid Layout - Responsive: single column on mobile, full grid on md+
-          <>
-            <style dangerouslySetInnerHTML={{
-              __html: `
-                .preview-responsive-grid {
-                  display: grid;
-                  grid-template-columns: 1fr;
-                  gap: ${gridGap}px;
-                }
-                .preview-grid-item {
-                  grid-column: 1 / -1;
-                }
-                @media (min-width: 768px) {
-                  .preview-responsive-grid {
-                    grid-template-columns: repeat(${gridColumns}, 1fr);
-                  }
-                  .preview-grid-item {
-                    grid-column: var(--grid-column);
-                    grid-row: var(--grid-row);
-                  }
-                }
-              `
-            }} />
-            <div className="preview-responsive-grid auto-rows-auto">
+          <div 
+            className="preview-responsive-grid auto-rows-auto"
+            style={{
+              '--grid-columns': gridColumns,
+              '--grid-gap': `${gridGap}px`,
+            } as React.CSSProperties}
+          >
               {visiblePanels.map((panelConfig) => {
                 const PanelComponent = getPanelComponent(panelConfig.type);
                 const gridPos = panelConfig.grid || { row: 1, col: 1, colSpan: 1 };
@@ -84,8 +68,7 @@ export default function PreviewRenderer({ config }: PreviewRendererProps) {
                   </div>
                 );
               })}
-            </div>
-          </>
+          </div>
         ) : (
           // List Layout
           <div className="grid gap-4">

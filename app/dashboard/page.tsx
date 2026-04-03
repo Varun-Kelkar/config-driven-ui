@@ -108,31 +108,13 @@ export default function DashboardPage() {
             </div>
           ) : config.mode === "grid" ? (
             // Grid Layout - Responsive: single column on mobile, full grid on md+
-            <>
-              <style
-                dangerouslySetInnerHTML={{
-                  __html: `
-                  .dashboard-responsive-grid {
-                    display: grid;
-                    grid-template-columns: 1fr;
-                    gap: ${gridGap}px;
-                  }
-                  .dashboard-grid-item {
-                    grid-column: 1 / -1;
-                  }
-                  @media (min-width: 768px) {
-                    .dashboard-responsive-grid {
-                      grid-template-columns: repeat(${gridColumns}, 1fr);
-                    }
-                    .dashboard-grid-item {
-                      grid-column: var(--grid-column);
-                      grid-row: var(--grid-row);
-                    }
-                  }
-                `,
-                }}
-              />
-              <div className="dashboard-responsive-grid auto-rows-auto">
+            <div 
+              className="dashboard-responsive-grid auto-rows-auto"
+              style={{
+                '--grid-columns': gridColumns,
+                '--grid-gap': `${gridGap}px`,
+              } as React.CSSProperties}
+            >
                 {visiblePanels.map((panelConfig) => {
                   const PanelComponent = getPanelComponent(panelConfig.type);
                   const gridPos = panelConfig.grid || {
@@ -156,8 +138,7 @@ export default function DashboardPage() {
                     </div>
                   );
                 })}
-              </div>
-            </>
+            </div>
           ) : (
             // List Layout
             <div className="max-w-5xl mx-auto space-y-4">

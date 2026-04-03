@@ -14,3 +14,47 @@
   animation: shimmer 2s infinite linear;
   background-size: 200% 100%;
 }
+
+/* Dashboard responsive grid layout */
+.dashboard-responsive-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--grid-gap, 16px);
+}
+
+.dashboard-grid-item {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 768px) {
+  .dashboard-responsive-grid {
+    grid-template-columns: repeat(var(--grid-columns, 4), 1fr);
+  }
+  
+  .dashboard-grid-item {
+    grid-column: var(--grid-column);
+    grid-row: var(--grid-row);
+  }
+}
+
+/* Preview responsive grid layout */
+.preview-responsive-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--grid-gap, 16px);
+}
+
+.preview-grid-item {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 768px) {
+  .preview-responsive-grid {
+    grid-template-columns: repeat(var(--grid-columns, 4), 1fr);
+  }
+  
+  .preview-grid-item {
+    grid-column: var(--grid-column);
+    grid-row: var(--grid-row);
+  }
+}
